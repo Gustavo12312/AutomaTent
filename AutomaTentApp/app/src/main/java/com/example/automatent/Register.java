@@ -6,7 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +17,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class Register extends AppCompatActivity {
+
+    private Retrofit retrofit;
+    private ApiService apiService;
+    private String BASE_URL = "http://192.168.68.108:8080";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -26,6 +41,20 @@ public class Register extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        apiService = retrofit.create(ApiService.class);
+
+        findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleRegister();
+            }
         });
 
 
@@ -48,4 +77,64 @@ public class Register extends AppCompatActivity {
             }
         });
     }
+
+    private void handleRegister() {
+
+
+        Button registerBtn = findViewById(R.id.registerButton);
+
+        EditText username = findViewById(R.id.usernameEditText);
+
+        EditText email = findViewById(R.id.emailEditText);
+
+        EditText pass = findViewById(R.id.passwordEditText);
+
+        String usernameText = username.getText().toString();
+        String passText = pass.getText().toString();
+
+        if (usernameText.isEmpty() || passText.isEmpty()) {
+            Toast.makeText(Register.this, "Please enter username, email and password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                HashMap<String, String> map = new HashMap<>();
+
+                map.put("name", username.getText().toString());
+                map.put("email", email.getText().toString());
+                map.put("pass", pass.getText().toString());
+
+                Call<RegisterResult> call = apiService.registerUser(map);
+
+                call.enqueue(new Callback<RegisterResult>() {
+                    @Override
+                    public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
+                        if (response.code() == 200) {
+                            Toast.makeText(Register.this, "Register Successfully",
+                                    Toast.LENGTH_SHORT).show();
+
+                            RegisterResult result = response.body();
+                            Intent intent = new Intent(Register.this, Devices.class);
+                            startActivity(intent);
+
+
+                        }
+                        else if (response.code() == 401) {
+                            Toast.makeText(Register .this, "Wrong Credentials",
+                                    Toast.LENGTH_SHORT).show();
+                        }}
+
+                    @Override
+                    public void onFailure(Call<RegisterResult> call, Throwable t) {
+                        Toast.makeText(Register.this, t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
 }

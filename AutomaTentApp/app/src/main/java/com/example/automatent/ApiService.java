@@ -10,4 +10,6 @@ public interface ApiService {
 
     @POST("api/users/auth")
     Call<LoginResult> loginUser(@Body HashMap<String, String> map);
+    @POST("api/users")
+    Call<RegisterResult> registerUser(@Body HashMap<String, String> map);
 }

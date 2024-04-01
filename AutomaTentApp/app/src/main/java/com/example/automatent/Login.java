@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Login extends AppCompatActivity {
     private Retrofit retrofit;
     private ApiService apiService;
-    private String BASE_URL = "http://192.168.1.22:8080";
+    private String BASE_URL = "http://192.168.68.108:8080";
 
 
 
@@ -59,7 +59,7 @@ public class Login extends AppCompatActivity {
         findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleLoginDialog();
+                handleLogin();
             }
         });
 
@@ -84,7 +84,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void handleLoginDialog() {
+    private void handleLogin() {
 
 
         Button loginBtn = findViewById(R.id.loginButton);
