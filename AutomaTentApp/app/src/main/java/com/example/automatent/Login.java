@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Login extends AppCompatActivity {
     private Retrofit retrofit;
     private ApiService apiService;
-    private String BASE_URL = "http://192.168.68.108:8080";
+    private String BASE_URL = "http://10.72.46.159:8080";
 
 
 
