@@ -1,9 +1,11 @@
 package com.example.automatent;
 
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -12,4 +14,6 @@ public interface ApiService {
     Call<LoginResult> loginUser(@Body HashMap<String, String> map);
     @POST("api/users")
     Call<RegisterResult> registerUser(@Body HashMap<String, String> map);
+    @GET("api/dev/")
+    Call<List<DevicesResult>> getDevices();
 }

@@ -28,12 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Login extends AppCompatActivity {
-    private Retrofit retrofit;
+
     private ApiService apiService;
-    private String BASE_URL = "http://10.72.46.159:8080";
-
-
-
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -49,10 +45,7 @@ public class Login extends AppCompatActivity {
         });
 
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
 
         apiService = retrofit.create(ApiService.class);
 
@@ -86,9 +79,6 @@ public class Login extends AppCompatActivity {
 
     private void handleLogin() {
 
-
-        Button loginBtn = findViewById(R.id.loginButton);
-
         EditText username = findViewById(R.id.usernameEditText);
 
         EditText pass = findViewById(R.id.passwordEditText);
@@ -101,46 +91,38 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("name", username.getText().toString());
+        map.put("pass", pass.getText().toString());
+
+        Call<LoginResult> call = apiService.loginUser(map);
+
+        call.enqueue(new Callback<LoginResult>() {
+            @Override
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(Login.this, "Login Successfully",
+                            Toast.LENGTH_SHORT).show();
+
+                    LoginResult result = response.body();
+                    Intent intent = new Intent(Login.this, Devices.class);
+                    startActivity(intent);
+
+
+                }
+                else if (response.code() == 401) {
+                    Toast.makeText(Login.this, "Wrong Credentials",
+                            Toast.LENGTH_SHORT).show();
+                }}
 
             @Override
-            public void onClick(View view) {
-                HashMap<String, String> map = new HashMap<>();
-
-                map.put("name", username.getText().toString());
-                map.put("pass", pass.getText().toString());
-
-                Call<LoginResult> call = apiService.loginUser(map);
-
-                call.enqueue(new Callback<LoginResult>() {
-                    @Override
-                    public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
-                        if (response.code() == 200) {
-                            Toast.makeText(Login.this, "Login Successfully",
-                                    Toast.LENGTH_SHORT).show();
-
-                            LoginResult result = response.body();
-                            Intent intent = new Intent(Login.this, Devices.class);
-                            startActivity(intent);
-
-
-                        }
-                        else if (response.code() == 401) {
-                            Toast.makeText(Login.this, "Wrong Credentials",
-                                    Toast.LENGTH_SHORT).show();
-                        }}
-
-                    @Override
-                    public void onFailure(Call<LoginResult> call, Throwable t) {
-                        Toast.makeText(Login.this, t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+                Toast.makeText(Login.this, t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
-
 
 }

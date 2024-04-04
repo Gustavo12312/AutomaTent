@@ -33,4 +33,21 @@ class Dev {
             return { status: 500, result: err };
         }  
     }
+
+    static async getAllDevs() {
+        try {
+            let dbResult = await pool.query("Select * FROM dev");
+            let dbDevs = dbResult.rows;
+            if (!dbDevs.length) 
+                return { status: 404, result: { msg: "No devices found." } };
+            let dev = dbDevs.map(dbDev => new Dev(dbDev.dev_id, dbDev.dev_name));
+            return { status: 200, result: dev };
+        } catch (err) {
+            console.log(err);
+            return { status: 500, result: err };
+        }
+    }
+    
+
 }
+module.exports = Dev;

@@ -27,9 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Register extends AppCompatActivity {
 
-    private Retrofit retrofit;
     private ApiService apiService;
-    private String BASE_URL = "http://192.168.68.108:8080";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -43,10 +41,8 @@ public class Register extends AppCompatActivity {
             return insets;
         });
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
 
         apiService = retrofit.create(ApiService.class);
 
@@ -81,7 +77,6 @@ public class Register extends AppCompatActivity {
     private void handleRegister() {
 
 
-        Button registerBtn = findViewById(R.id.registerButton);
 
         EditText username = findViewById(R.id.usernameEditText);
 
@@ -97,44 +92,40 @@ public class Register extends AppCompatActivity {
             return;
         }
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("name", username.getText().toString());
+        map.put("email", email.getText().toString());
+        map.put("pass", pass.getText().toString());
+
+        Call<RegisterResult> call = apiService.registerUser(map);
+
+        call.enqueue(new Callback<RegisterResult>() {
+            @Override
+            public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(Register.this, "Register Successfully",
+                            Toast.LENGTH_SHORT).show();
+
+                    RegisterResult result = response.body();
+                    Intent intent = new Intent(Register.this, Devices.class);
+                    startActivity(intent);
+
+
+                }
+                else if (response.code() == 401) {
+                    Toast.makeText(Register .this, "Wrong Credentials",
+                            Toast.LENGTH_SHORT).show();
+                }}
 
             @Override
-            public void onClick(View view) {
-                HashMap<String, String> map = new HashMap<>();
-
-                map.put("name", username.getText().toString());
-                map.put("email", email.getText().toString());
-                map.put("pass", pass.getText().toString());
-
-                Call<RegisterResult> call = apiService.registerUser(map);
-
-                call.enqueue(new Callback<RegisterResult>() {
-                    @Override
-                    public void onResponse(Call<RegisterResult> call, Response<RegisterResult> response) {
-                        if (response.code() == 200) {
-                            Toast.makeText(Register.this, "Register Successfully",
-                                    Toast.LENGTH_SHORT).show();
-
-                            RegisterResult result = response.body();
-                            Intent intent = new Intent(Register.this, Devices.class);
-                            startActivity(intent);
-
-
-                        }
-                        else if (response.code() == 401) {
-                            Toast.makeText(Register .this, "Wrong Credentials",
-                                    Toast.LENGTH_SHORT).show();
-                        }}
-
-                    @Override
-                    public void onFailure(Call<RegisterResult> call, Throwable t) {
-                        Toast.makeText(Register.this, t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+            public void onFailure(Call<RegisterResult> call, Throwable t) {
+                Toast.makeText(Register.this, t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
 }
