@@ -59,7 +59,7 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="20dp" />
+                android:layout_height="10dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,9 +72,7 @@
                 android:inputType="textPersonName"
                 android:drawableEnd="@drawable/done_icon"
                 android:id="@+id/usernameEditText"/>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,9 +97,6 @@
                 android:inputType="textPassword"
                 android:drawableEnd="@drawable/eye_icon"
                 android:id="@+id/passwordEditText"/>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
@@ -112,12 +107,13 @@
                 android:id="@+id/registerButton"/>
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="10dp" />
+                android:layout_height="5dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Register with"
+                android:textSize="15dp"
                 android:alpha="0.7"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,18 +122,18 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="12dp"
                     android:background="@drawable/instagram" />
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="12dp"
                     android:background="@drawable/facebook" />
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="12dp"
                     android:background="@drawable/tiktok" />
             </LinearLayout>
@@ -145,12 +141,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="15dp"
                 android:text="Already have an account? Login"
                 android:alpha="0.7"
                 android:id="@+id/acc"/>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
+
 
         </LinearLayout>
 

@@ -59,7 +59,7 @@
 
         <View
             android:layout_width="wrap_content"
-            android:layout_height="20dp" />
+            android:layout_height="10dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,9 +72,6 @@
             android:inputType="textEmailAddress"
             android:drawableEnd="@drawable/done_icon"
             android:id="@+id/usernameEditText"/>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Remember me"
+                android:textSize="15dp"
                 android:layout_centerVertical="true"
                 android:alpha="0.7" />
 
@@ -102,13 +100,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="I forgot my password"
+                android:textSize="15dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true" />
 
         </RelativeLayout>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -118,12 +114,13 @@
             android:id="@+id/loginButton"/>
         <View
             android:layout_width="wrap_content"
-            android:layout_height="10dp" />
+            android:layout_height="5dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Login with"
+            android:textSize="15dp"
             android:alpha="0.7"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,18 +129,18 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_margin="12dp"
                 android:background="@drawable/instagram" />
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_margin="12dp"
                 android:background="@drawable/facebook" />
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_margin="12dp"
                 android:background="@drawable/tiktok" />
         </LinearLayout>
@@ -153,10 +150,8 @@
             android:layout_gravity="center"
             android:text="Dont have an account? Register"
             android:alpha="0.7"
+            android:textSize="15dp"
             android:id="@+id/noacc"/>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
 
     </LinearLayout>
 
