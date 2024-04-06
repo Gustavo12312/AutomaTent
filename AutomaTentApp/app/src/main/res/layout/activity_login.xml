@@ -64,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
+            android:textColor="@color/brown"
             android:alpha="0.7"
             android:textStyle="bold"/>
         <EditText
@@ -76,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Password"
+            android:textColor="@color/brown"
             android:alpha="0.7"
             android:textStyle="bold"/>
         <EditText
@@ -84,27 +86,22 @@
             android:inputType="textPassword"
             android:drawableEnd="@drawable/eye_icon"
             android:id="@+id/passwordEditText"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="5dp" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Remember me"
-                android:textSize="15dp"
-                android:layout_centerVertical="true"
-                android:alpha="0.7" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I forgot my password"
+            android:alpha="0.7"
+            android:textSize="15dp"
+            android:layout_centerVertical="true" />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="5dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I forgot my password"
-                android:textSize="15dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true" />
 
-        </RelativeLayout>
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="60dp"
