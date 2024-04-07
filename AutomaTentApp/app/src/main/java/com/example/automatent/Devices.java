@@ -6,6 +6,7 @@ package com.example.automatent;
         import android.view.View;
         import android.widget.Button;
         import android.widget.GridLayout;
+        import android.widget.LinearLayout;
         import android.widget.Toast;
 
         import androidx.activity.EdgeToEdge;
@@ -27,7 +28,7 @@ public class Devices extends AppCompatActivity {
 
 
     private ApiService apiService;
-    private GridLayout devicesLayout; // Change the type to GridLayout
+    private LinearLayout devicesLayout; // Change the type to GridLayout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class Devices extends AppCompatActivity {
     }
 
     private void addButton(String deviceName) {
-        Button button = new AppCompatButton(this);
+        Button button = new Button(this);
         button.setText(deviceName);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,28 +87,21 @@ public class Devices extends AppCompatActivity {
                 Toast.makeText(Devices.this, "Clicked on " + deviceName, Toast.LENGTH_SHORT).show();
             }
         });
-        GridLayout.Spec spec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-        // Set layout parameters for GridLayout
-        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-        layoutParams.width = 0;
-        layoutParams.height = 250;
-        layoutParams.setMargins(10, 10, 10, 10);
-        layoutParams.columnSpec = spec;
-
-        button.setLayoutParams(layoutParams);
+        // Set layout width and height
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
 
         // Set background tint
-
         button.setBackgroundResource(R.drawable.buttonformat);
 
-
-
-
+        layoutParams.setMargins(0, 0, 0, 30); // left, top, right, bottom
+        button.setLayoutParams(layoutParams);
 
         // Set text size
         button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         button.setTextColor(Color.WHITE);
-
         devicesLayout.addView(button);
     }
 
