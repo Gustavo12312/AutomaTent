@@ -1,5 +1,6 @@
 package com.example.automatent;
 
+        import android.content.Intent;
         import android.graphics.Color;
         import android.os.Bundle;
         import android.util.TypedValue;
@@ -28,7 +29,7 @@ public class Devices extends AppCompatActivity {
 
 
     private ApiService apiService;
-    private LinearLayout devicesLayout; // Change the type to GridLayout
+    private LinearLayout devicesLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class Devices extends AppCompatActivity {
 
         apiService = retrofit.create(ApiService.class);
 
-        devicesLayout = findViewById(R.id.devicesLayout); // Change the type to GridLayout
+        devicesLayout = findViewById(R.id.devicesLayout);
 
         listDevices();
     }
@@ -61,7 +62,8 @@ public class Devices extends AppCompatActivity {
                     List<DevicesResult> results = response.body();
                     for (DevicesResult result : results) {
                         String deviceName = result.getName();
-                        addButton(deviceName);
+                        int deviceId = result.getId();
+                        addButton(deviceName, deviceId);
                     }
                 } else {
                     // Handle error
@@ -77,14 +79,15 @@ public class Devices extends AppCompatActivity {
         });
     }
 
-    private void addButton(String deviceName) {
+    private void addButton(String deviceName, int deviceId) {
         Button button = new Button(this);
         button.setText(deviceName);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle button click, e.g., open device details
-                Toast.makeText(Devices.this, "Clicked on " + deviceName, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Devices.this, Dev.class);
+                intent.putExtra("device_id", deviceId);
+                startActivity(intent);
             }
         });
         // Set layout width and height
@@ -100,7 +103,7 @@ public class Devices extends AppCompatActivity {
         button.setLayoutParams(layoutParams);
 
         // Set text size
-        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         button.setTextColor(Color.WHITE);
         devicesLayout.addView(button);
     }

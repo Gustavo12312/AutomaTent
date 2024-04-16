@@ -43,7 +43,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:fontFamily="sans-serif-medium"
-            android:textSize="30sp" />
+            android:textSize="26sp" />
 
         <View
             android:layout_width="match_parent"

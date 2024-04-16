@@ -47,6 +47,38 @@ class Dev {
             return { status: 500, result: err };
         }
     }
+
+    static async getdatafromDev(id) {
+        try {
+            let dbResult = await pool.query("Select data_value from dev JOIN data ON data_dev_id = dev_id where dev_id=$1", [id]);
+            let dbDevs = dbResult.rows;
+            if (!dbDevs.length) 
+                return { status: 404, result:{msg: "No device found for that id."} } ;
+            let dbRow = dbDevs[0];
+            return { status: 200, result: dbRow.data_value } ;
+        } catch (err) {
+            console.log(err);
+            return { status: 500, result: err };
+        }  
+    }
+
+    static async updateDeviceValue(id, newValue) {
+        try {
+            // Validate the new value
+            if (newValue !== 0 && newValue !== 1) {
+                return { status: 404, result: { msg: "Invalid value. Value should be either 0 or 1." } };
+            }
+    
+            // Update the device value in the database
+            await pool.query("UPDATE dev SET value = $1 WHERE dev_id = $2", [newValue, id]);
+    
+            return { status: 200, result: { msg: "Device value updated successfully." } };
+        } catch (err) {
+            console.log(err);
+            return { status: 500, result: err };
+        }
+    }
+    
     
 
 }

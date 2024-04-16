@@ -26,7 +26,6 @@ app.use("/api/users",usersRouter);
 const devRouter = require("./routes/devRoutes");
 app.use("/api/dev",devRouter);
 
-
 // when we don't find anything
 app.use((req, res, next) => {
   res.status(404).send({msg:"No resource or page found."});

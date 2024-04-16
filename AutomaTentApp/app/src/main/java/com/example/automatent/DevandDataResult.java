@@ -1,15 +1,15 @@
 package com.example.automatent;
 
-public class DevicesResult {
+public class DevandDataResult {
     private String name;
-    private Integer id;
+    private Integer value;
 
 
     public String getName() {
         return name;
     }
-    public Integer getId() {
-        return id;
+    public Integer getValue() {
+        return value;
     }
-
 }
+

@@ -18,7 +18,7 @@ create table dev(
 
 create table data(
     data_id SERIAL not null,
-    data_values varchar(200) not null,
+    data_value CHAR(1) NOT NULL CHECK (data_value IN ('0', '1')),
     data_dev_id Int Not null,
     
     primary key (data_id)
