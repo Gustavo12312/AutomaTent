@@ -37,6 +37,8 @@ public class Dev extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("DevActivity", "onCreate");
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dev);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -52,16 +54,19 @@ public class Dev extends AppCompatActivity {
 
         // Retrieve device ID from intent extras
         int deviceId = getIntent().getIntExtra("device_id", -1);
+        Log.d("DevActivity", "Device ID: " + deviceId);
         if (deviceId != -1) {
             // If device ID is valid, fetch and display device name
             DataForDevice(deviceId);
         } else {
             // Handle invalid device ID
             Toast.makeText(this, "Invalid device ID", Toast.LENGTH_SHORT).show();
+            Log.d("DevActivity", "Invalid device ID");
         }
     }
 
     private void DataForDevice(Integer deviceId) {
+        Log.d("DevActivity", "Fetching data for device ID: " + deviceId);
         Call<DevandDataResult> call = apiService.getDevandData(deviceId);
 
         call.enqueue(new Callback<DevandDataResult>() {
@@ -73,6 +78,7 @@ public class Dev extends AppCompatActivity {
                     DevandDataResult result = response.body();
                     if (result != null) {
                         String deviceName = result.getName();
+                        Log.d("DevActivity", "Device name: " + deviceName);
                         // Display device name on TextView
                         addTextView(deviceName);
                         addButton();
@@ -89,6 +95,7 @@ public class Dev extends AppCompatActivity {
             @Override
             public void onFailure(Call<DevandDataResult> call, Throwable t) {
                 // Handle failure
+                Log.e("DevActivity", "Failed to get device data: " + t.getMessage(), t);
                 Toast.makeText(Dev.this, "Failed to get device data: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -98,7 +105,6 @@ public class Dev extends AppCompatActivity {
         Log.d("DevActivity", "Adding TextView for device: " + deviceName);
         TextView textView = new TextView(this);
         textView.setText(deviceName);
-
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -155,9 +161,16 @@ public class Dev extends AppCompatActivity {
     private void updateDeviceValue(Integer newValue) {
         // Retrieve device ID from intent extras
         int deviceId = getIntent().getIntExtra("device_id", -1);
+        Log.d("DevActivity", "Updating device value for ID: " + deviceId);
         if (deviceId != -1) {
             // Call Retrofit service method to update device value
-            Call<Void> call = apiService.updateData(deviceId, new UpdateDataRequest(newValue));
+            UpdateDataRequest requestData = new UpdateDataRequest(newValue);
+
+            // Log the request body
+            Log.d("DevActivity", "Request Body: " + requestData.toString());
+
+            // Call Retrofit service method to update device value
+            Call<Void> call = apiService.updateData(deviceId, requestData);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -179,8 +192,7 @@ public class Dev extends AppCompatActivity {
         } else {
             // Handle invalid device ID
             Toast.makeText(this, "Invalid device ID", Toast.LENGTH_SHORT).show();
+            Log.d("DevActivity", "Invalid device ID");
         }
     }
-
-
 }

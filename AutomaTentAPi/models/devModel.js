@@ -68,6 +68,7 @@ class Dev {
             if (newValue !== 0 && newValue !== 1) {
                 return { status: 404, result: { msg: "Invalid value. Value should be either 0 or 1." } };
             }
+            
             // Update the device value in the database
             await pool.query("UPDATE data SET data_value = $1 WHERE data_dev_id = $2", [newValue, id]);
     

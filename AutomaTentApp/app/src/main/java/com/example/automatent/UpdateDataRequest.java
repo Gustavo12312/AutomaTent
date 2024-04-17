@@ -2,7 +2,6 @@ package com.example.automatent;
 
 public class UpdateDataRequest {
     private Integer value;
-
     public UpdateDataRequest(Integer value) {
         this.value = value;
     }
@@ -13,5 +12,13 @@ public class UpdateDataRequest {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+
+    @Override
+    public String toString() {
+        return "UpdateDataRequest{" +
+                "value=" + value +
+                '}';
     }
 }

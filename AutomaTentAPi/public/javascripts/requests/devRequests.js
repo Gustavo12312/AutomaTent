@@ -43,7 +43,7 @@ async function updateDevData() {
                 'Content-Type': 'application/json'
             },
         method: "PUT",
-        body: JSON.stringify({ newValue: data})
+        body: JSON.stringify({ value })
         });
         return { successful: response.status == 200};
     } catch (err) {
