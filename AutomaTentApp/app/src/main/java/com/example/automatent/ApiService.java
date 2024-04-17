@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -19,5 +20,7 @@ public interface ApiService {
     Call<List<DevicesResult>> getDevices();
     @GET("api/dev/data/{id}")
     Call<DevandDataResult> getDevandData(@Path("id") Integer deviceId);
-
+    @PUT("api/dev/data/update/{id}")
+    Call<Void> updateData(@Path("id") Integer deviceId, @Body UpdateDataRequest requestData);
 }
+

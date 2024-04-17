@@ -122,11 +122,9 @@ public class Dev extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Handle switch state change here
                 if (isChecked) {
-                    // Switch is ON
-                    // Perform actions for ON state
+                    updateDeviceValue(1);
                 } else {
-                    // Switch is OFF
-                    // Perform actions for OFF state
+                    updateDeviceValue(0);
                 }
             }
         });
@@ -153,5 +151,36 @@ public class Dev extends AppCompatActivity {
         switchButton.setTextColor(Color.WHITE);
         devLayout.addView(switchButton);
     }
+
+    private void updateDeviceValue(Integer newValue) {
+        // Retrieve device ID from intent extras
+        int deviceId = getIntent().getIntExtra("device_id", -1);
+        if (deviceId != -1) {
+            // Call Retrofit service method to update device value
+            Call<Void> call = apiService.updateData(deviceId, new UpdateDataRequest(newValue));
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        // Handle successful response
+                        Log.d("DevActivity", "Device value updated successfully.");
+                    } else {
+                        // Handle unsuccessful response
+                        Log.d("DevActivity", "Failed to update device value. Status code: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    // Handle failure
+                    Log.e("DevActivity", "Failed to update device value: " + t.getMessage(), t);
+                }
+            });
+        } else {
+            // Handle invalid device ID
+            Toast.makeText(this, "Invalid device ID", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }

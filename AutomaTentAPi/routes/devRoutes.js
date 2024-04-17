@@ -50,9 +50,7 @@ router.get('/', async function (req, res) {
 router.put('/data/update/:id', async function (req, res) {
     try {
         console.log("Update Device");
-        const { id } = req.params;
-        const newData = req.body; // Assuming the new data is sent in the request body
-        let result = await Dev.updateDev(id, newData);
+        let result = await Dev.updateDeviceValue(req.params.id, req.body.newValue);
         if (result.status != 200)
             return res.status(result.status).send(result.result);
         res.status(200).send({ message: "Device updated successfully." });
