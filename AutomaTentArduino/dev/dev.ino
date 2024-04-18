@@ -9,8 +9,8 @@
 WiFiMulti wifiMulti;
 
 // Define relay pin
-const int relayPTCPin = 2;
-const int relayFANPin = 2;
+const int relayPTCPin = 32;
+const int relayFANPin = 25;
 
 void setup() {
   USE_SERIAL.begin(115200);
@@ -24,7 +24,7 @@ void setup() {
     delay(1000);
   }
 
-  wifiMulti.addAP("Visitors", "");
+  wifiMulti.addAP("wifi", "Pass");
   pinMode(relayPTCPin, OUTPUT);
   pinMode(relayFANPin, OUTPUT);
 }
@@ -35,7 +35,7 @@ void loop() {
     HTTPClient http;
 
     USE_SERIAL.print("[HTTP] begin...\n");
-    http.begin("http://10.72.107.112:8080/api/dev"); 
+    http.begin("http://192.168.68.112:8080/api/dev"); 
 
     USE_SERIAL.print("[HTTP] GET...\n");
     int httpCode = http.GET();
@@ -52,45 +52,27 @@ void loop() {
         deserializeJson(doc, payload);
 
         // Extract value from JSON
-        int value = doc["value"];
-        String name = doc["name"];
+        for (JsonObject device : doc.as<JsonArray>()) {
+          String name = device["name"].as<String>();
+          int value = device["value"].as<int>();
 
+        
 
-        // Check if value is 1
-        if (value == 1 && name == "LED") {
-          // Turn on relay to activate the fan
-          digitalWrite(relayPTCPin, HIGH);
-          digitalWrite(relayFANPin, HIGH);
-          USE_SERIAL.println("Fan and PTC activated");
-        } else {
-          // Turn off relay
-          digitalWrite(relayPTCPin, LOW);
-          digitalWrite(relayFANPin, LOW);
-          USE_SERIAL.println("Fan and PTC deactivated");
-        }
-
-         if (value == 1 && name == "Temperature Control") {
-          // Turn on relay to activate the fan
-          digitalWrite(relayPTCPin, HIGH);
-          digitalWrite(relayFANPin, HIGH);
-          USE_SERIAL.println("Fan and PTC activated");
-        } else {
-          // Turn off relay
-          digitalWrite(relayPTCPin, LOW);
-          digitalWrite(relayFANPin, LOW);
-          USE_SERIAL.println("Fan and PTC deactivated");
-        }
-
-         if (value == 1 && name == "Reagroup Button") {
-          // Turn on relay to activate the fan
-          digitalWrite(relayPTCPin, HIGH);
-          digitalWrite(relayFANPin, HIGH);
-          USE_SERIAL.println("Fan and PTC activated");
-        } else {
-          // Turn off relay
-          digitalWrite(relayPTCPin, LOW);
-          digitalWrite(relayFANPin, LOW);
-          USE_SERIAL.println("Fan and PTC deactivated");
+          if (name == "FAN" && value == 1) {
+            // Turn on relay to activate the fan
+           digitalWrite(relayFANPin, HIGH);
+            USE_SERIAL.println("Fan activated");
+          } else if (name == "HEATER" && value == 1) {
+            // Turn on relay to activate the fan
+            digitalWrite(relayPTCPin, HIGH);
+            USE_SERIAL.println("PTC activated");
+            // Turn off relay
+            
+          } else {
+            // Turn off relay
+            digitalWrite(relayFANPin, LOW);
+            digitalWrite(relayPTCPin, LOW);
+          }
         }
       }
     } else {
@@ -98,5 +80,5 @@ void loop() {
     }
     http.end();
   }
-  delay(5000);
+  delay(1000);
 }
