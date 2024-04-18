@@ -1,11 +1,14 @@
 package com.example.automatent;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -55,6 +59,18 @@ public class Dev extends AppCompatActivity {
             Toast.makeText(this, "Invalid device ID", Toast.LENGTH_SHORT).show();
             Log.d("DevActivity", "Invalid device ID");
         }
+
+        ImageView imageview = findViewById(R.id.backButton);
+        final int clickedColor = ContextCompat.getColor(this, R.color.brown);
+
+        findViewById(R.id.backButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageview.setColorFilter(clickedColor);
+                Intent intent = new Intent(Dev.this, Devices.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void DataForDevice(Integer deviceId) {

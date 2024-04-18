@@ -8,11 +8,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -55,8 +57,16 @@ public class Register extends AppCompatActivity {
 
 
         TextView textView = findViewById(R.id.acc);
-        final int clickedColor = Color.YELLOW;
-        final int defaultColor = textView.getCurrentTextColor();;
+        ImageView imageview = findViewById(R.id.backButton);
+        final int clickedColor = ContextCompat.getColor(this, R.color.brown);
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageview.setColorFilter(clickedColor);
+                Intent intent = new Intent(Register.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,13 +75,7 @@ public class Register extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        textView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                textView.setTextColor(defaultColor);
-                return false;
-            }
-        });
+
     }
 
     private void handleRegister() {

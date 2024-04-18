@@ -7,12 +7,14 @@ package com.example.automatent;
         import android.view.View;
         import android.widget.Button;
         import android.widget.GridLayout;
+        import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.widget.Toast;
 
         import androidx.activity.EdgeToEdge;
         import androidx.appcompat.app.AppCompatActivity;
         import androidx.appcompat.widget.AppCompatButton;
+        import androidx.core.content.ContextCompat;
         import androidx.core.graphics.Insets;
         import androidx.core.view.ViewCompat;
         import androidx.core.view.WindowInsetsCompat;
@@ -50,6 +52,18 @@ public class Devices extends AppCompatActivity {
         devicesLayout = findViewById(R.id.devicesLayout);
 
         listDevices();
+
+        ImageView imageview = findViewById(R.id.backButton);
+        final int clickedColor = ContextCompat.getColor(this, R.color.brown);
+
+        findViewById(R.id.backButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageview.setColorFilter(clickedColor);
+                Intent intent = new Intent(Devices.this, Login.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void listDevices() {
