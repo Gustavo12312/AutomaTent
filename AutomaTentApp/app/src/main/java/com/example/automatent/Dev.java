@@ -1,13 +1,10 @@
 package com.example.automatent;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -19,11 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import com.example.automatent.ApiService;
-import com.example.automatent.DevandDataResult;
-import com.example.automatent.R;
-import com.example.automatent.RetrofitClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,15 +59,15 @@ public class Dev extends AppCompatActivity {
 
     private void DataForDevice(Integer deviceId) {
         Log.d("DevActivity", "Fetching data for device ID: " + deviceId);
-        Call<DevandDataResult> call = apiService.getDevandData(deviceId);
+        Call<DevResult> call = apiService.getDev(deviceId);
 
-        call.enqueue(new Callback<DevandDataResult>() {
+        call.enqueue(new Callback<DevResult>() {
             @Override
-            public void onResponse(Call<DevandDataResult> call, Response<DevandDataResult> response) {
+            public void onResponse(Call<DevResult> call, Response<DevResult> response) {
                 // Inside onResponse method of DataForDevice
                 Log.d("DevActivity", "Response: " + response.toString());
                 if (response.isSuccessful()) {
-                    DevandDataResult result = response.body();
+                    DevResult result = response.body();
                     if (result != null) {
                         String deviceName = result.getName();
                         Log.d("DevActivity", "Device name: " + deviceName);
@@ -93,7 +85,7 @@ public class Dev extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DevandDataResult> call, Throwable t) {
+            public void onFailure(Call<DevResult> call, Throwable t) {
                 // Handle failure
                 Log.e("DevActivity", "Failed to get device data: " + t.getMessage(), t);
                 Toast.makeText(Dev.this, "Failed to get device data: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -164,13 +156,13 @@ public class Dev extends AppCompatActivity {
         Log.d("DevActivity", "Updating device value for ID: " + deviceId);
         if (deviceId != -1) {
             // Call Retrofit service method to update device value
-            UpdateDataRequest requestData = new UpdateDataRequest(newValue);
+            UpdateDevRequest requestData = new UpdateDevRequest(newValue);
 
             // Log the request body
             Log.d("DevActivity", "Request Body: " + requestData.toString());
 
             // Call Retrofit service method to update device value
-            Call<Void> call = apiService.updateData(deviceId, requestData);
+            Call<Void> call = apiService.updateDev(deviceId, requestData);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {

@@ -1,6 +1,6 @@
 package com.example.automatent;
 
-public class DevandDataResult {
+public class DevResult {
     private String name;
     private Integer value;
 

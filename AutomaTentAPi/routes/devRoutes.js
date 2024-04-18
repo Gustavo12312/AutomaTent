@@ -3,30 +3,15 @@ const router = express.Router();
 const Dev = require("../models/devModel");
 
 
-router.get('/data/:id', async function (req, res) {
+router.get('/:id', async function (req, res) {
     try {
-        console.log("Get Device and Value");
-        
+        console.log("Get Device");
         // Get device information
         let devResult = await Dev.getDev(req.params.id);
         if (devResult.status !== 200) {
             return res.status(devResult.status).send(devResult.result);
         }
-        
-        // Get value from data table
-        let dataResult = await Dev.getdatafromDev(req.params.id);
-        if (dataResult.status !== 200) {
-            return res.status(dataResult.status).send(dataResult.result);
-        }
-        
-        // If both device and value are found, construct the response
-        let dev = new Dev(devResult.result.id, devResult.result.name);
-        let responseData = {
-            name: dev.name,
-            value: dataResult.result
-        };
-
-        res.status(200).send(responseData);
+        res.status(200).send(devResult.result);
     } catch (err) {
         console.error(err);
         res.status(500).send(err);
@@ -47,7 +32,7 @@ router.get('/', async function (req, res) {
     }
 });
 
-router.put('/data/update/:id', async function (req, res) {
+router.put('/update/:id', async function (req, res) {
     try {
         console.log("Update Device");
         console.log(`Updating device with ID: ${req.params.id}, New value: ${req.body.value}`);

@@ -16,9 +16,9 @@ async function requestAllDevs() {
     }
     
 }
-async function requestDevandData() {
+async function requestDev() {
     try {
-        const response = await fetch(`/api/dev/data/:id`, 
+        const response = await fetch(`/api/dev/:id`, 
         {
             headers: {
                 'Accept': 'application/json',
@@ -34,9 +34,9 @@ async function requestDevandData() {
     }
     
 }
-async function updateDevData() {
+async function updateDevValue() {
     try {
-        const response = await fetch(`/api/dev/data/update/:id`, 
+        const response = await fetch(`/api/dev/update/:id`, 
         {
             headers: {
                 'Accept': 'application/json',

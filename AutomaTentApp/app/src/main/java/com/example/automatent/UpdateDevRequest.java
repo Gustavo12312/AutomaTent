@@ -1,8 +1,8 @@
 package com.example.automatent;
 
-public class UpdateDataRequest {
+public class UpdateDevRequest {
     private Integer value;
-    public UpdateDataRequest(Integer value) {
+    public UpdateDevRequest(Integer value) {
         this.value = value;
     }
 

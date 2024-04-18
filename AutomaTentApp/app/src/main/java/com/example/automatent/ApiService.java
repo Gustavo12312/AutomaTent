@@ -18,9 +18,9 @@ public interface ApiService {
     Call<RegisterResult> registerUser(@Body HashMap<String, String> map);
     @GET("api/dev/")
     Call<List<DevicesResult>> getDevices();
-    @GET("api/dev/data/{id}")
-    Call<DevandDataResult> getDevandData(@Path("id") Integer deviceId);
-    @PUT("api/dev/data/update/{id}")
-    Call<Void> updateData(@Path("id") Integer deviceId, @Body UpdateDataRequest requestData);
+    @GET("api/dev/{id}")
+    Call<DevResult> getDev(@Path("id") Integer deviceId);
+    @PUT("api/dev/update/{id}")
+    Call<Void> updateDev(@Path("id") Integer deviceId, @Body UpdateDevRequest requestData);
 }
 

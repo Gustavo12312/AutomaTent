@@ -12,22 +12,10 @@ create table usr(
 create table dev(
     dev_id SERIAL not null,
     dev_name varchar(60) not null,
+    dev_value CHAR(1) NOT NULL CHECK (dev_value IN ('0', '1')),
     
     primary key (dev_id)
 );
 
-create table data(
-    data_id SERIAL not null,
-    data_value CHAR(1) NOT NULL CHECK (data_value IN ('0', '1')),
-    data_dev_id Int Not null,
-    
-    primary key (data_id)
-);
-
-
---device/data
-alter table data add constraint data_fk_dev
-            foreign key (data_dev_id) references dev(dev_id) 
-			ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
