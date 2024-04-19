@@ -20,6 +20,8 @@ package com.example.automatent;
         import androidx.core.view.WindowInsetsCompat;
 
         import java.util.List;
+        import java.util.Collections;
+        import java.util.Comparator;
 
         import retrofit2.Call;
         import retrofit2.Callback;
@@ -74,6 +76,14 @@ public class Devices extends AppCompatActivity {
             public void onResponse(Call<List<DevicesResult>> call, Response<List<DevicesResult>> response) {
                 if (response.isSuccessful()) {
                     List<DevicesResult> results = response.body();
+                    // Sort the list of devices by ID
+                    Collections.sort(results, new Comparator<DevicesResult>() {
+                        @Override
+                        public int compare(DevicesResult device1, DevicesResult device2) {
+                            return Integer.compare(device1.getId(), device2.getId());
+                        }
+                    });
+
                     for (DevicesResult result : results) {
                         String deviceName = result.getName();
                         int deviceId = result.getId();
