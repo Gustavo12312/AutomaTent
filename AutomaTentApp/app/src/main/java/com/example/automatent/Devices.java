@@ -109,7 +109,22 @@ public class Devices extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Devices.this, Dev.class);
+                Class<?> destinationClass = null;
+                switch (deviceName.toLowerCase()) {
+                    case "led":
+                        destinationClass = Led.class;
+                        break;
+                    case "heater":
+                        destinationClass = Heater.class;
+                        break;
+                    case "fan":
+                        destinationClass = Fan.class;
+                        break;
+                    case "reagroup button":
+                        destinationClass = Fan.class;
+                        break;
+                }
+                Intent intent = new Intent(Devices.this, destinationClass);
                 intent.putExtra("device_id", deviceId);
                 startActivity(intent);
             }
