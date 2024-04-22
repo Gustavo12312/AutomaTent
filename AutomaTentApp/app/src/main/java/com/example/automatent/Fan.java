@@ -1,6 +1,7 @@
 package com.example.automatent;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import retrofit2.Retrofit;
 
 public class Fan extends AppCompatActivity {
     private ApiService apiService;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,18 @@ public class Fan extends AppCompatActivity {
             }
         });
         Switch switchButton = findViewById(R.id.switchButton);
+
+        sharedPreferences = getSharedPreferences("switch_state", MODE_PRIVATE);
+        switchButton.setChecked(sharedPreferences.getBoolean("isChecked", false));
+
+        switchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isChecked", switchButton.isChecked());
+                editor.apply();
+            }
+        });
 
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
