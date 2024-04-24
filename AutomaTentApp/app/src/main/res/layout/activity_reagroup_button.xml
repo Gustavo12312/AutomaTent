@@ -58,7 +58,7 @@
                 android:id="@+id/switchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="On/Off"
+                android:text="Off/On"
                 android:layout_marginTop="150dp"
                 android:background="@drawable/buttonformat"
                 android:gravity="center"
