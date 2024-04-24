@@ -24,7 +24,7 @@ void setup() {
     delay(1000);
   }
 
-  wifiMulti.addAP("wifi", "Pass");
+  wifiMulti.addAP("Visitors", "");
   pinMode(relayPTCPin, OUTPUT);
   pinMode(relayFANPin, OUTPUT);
 }
@@ -35,7 +35,7 @@ void loop() {
     HTTPClient http;
 
     USE_SERIAL.print("[HTTP] begin...\n");
-    http.begin("http://192.168.68.112:8080/api/dev"); 
+    http.begin("http://10.72.125.120:8080/api/dev"); 
 
     USE_SERIAL.print("[HTTP] GET...\n");
     int httpCode = http.GET();
