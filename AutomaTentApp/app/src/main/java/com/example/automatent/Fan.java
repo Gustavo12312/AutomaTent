@@ -57,7 +57,7 @@ public class Fan extends AppCompatActivity {
         });
         Switch switchButton = findViewById(R.id.switchButton);
 
-        sharedPreferences = getSharedPreferences("switch_state", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("switch_state_fan", MODE_PRIVATE);
         switchButton.setChecked(sharedPreferences.getBoolean("isChecked", false));
 
         switchButton.setOnClickListener(new View.OnClickListener() {
