@@ -4,10 +4,15 @@
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include "RGBLed.h"
 
-#define PIN_RED    27 // GPIO23
-#define PIN_GREEN  26 // GPIO22
-#define PIN_BLUE   33 // GPIO21
+#define PIN_RED 33    // GPIO23
+#define PIN_GREEN 27  // GPIO22
+#define PIN_BLUE 26   // GPIO21
+
+#define rgbLed_TYPE COMMON_ANODE
+RGBLed rgbLed(PIN_RED, PIN_GREEN, PIN_BLUE, rgbLed_TYPE);
+
 #define DHTTYPE DHT22
 DHT dht(14, DHTTYPE);
 
@@ -21,9 +26,9 @@ void setup() {
   Serial.println();
   Serial.println();
   Serial.println("Teste");
-  pinMode(PIN_RED,   OUTPUT);
+  pinMode(PIN_RED, OUTPUT);
   pinMode(PIN_GREEN, OUTPUT);
-  pinMode(PIN_BLUE,  OUTPUT);
+  pinMode(PIN_BLUE, OUTPUT);
 
   dht.begin();
 
@@ -32,8 +37,8 @@ void setup() {
     Serial.flush();
     delay(1000);
   }
-
-  wifiMulti.addAP("Visitors", " ");
+//change the name of the wifi and pass 
+  wifiMulti.addAP("Visitors", "");
 
   pinMode(relayPTCPin, OUTPUT);
   pinMode(relayFANPin, OUTPUT);
@@ -63,8 +68,9 @@ void loop() {
   if ((wifiMulti.run() == WL_CONNECTED)) {
     HTTPClient http;
 
+//change for the local IP to connect with androidstudio 
     Serial.print("[HTTP] begin...\n");
-    http.begin("http://192.168.1.87:8080/api/dev");
+    http.begin("http://10.72.244.85:8080/api/dev");
 
     Serial.print("[HTTP] GET...\n");
     int httpCode = http.GET();
@@ -83,22 +89,26 @@ void loop() {
           String name = device["name"].as<String>();
           int value = device["value"].as<int>();
 
-          if (name == "FAN" && value == 1) {
-            digitalWrite(relayFANPin, HIGH);
-            Serial.println("Fan activated");
-          } else if (name == "HEATER" && value == 1) {
-            digitalWrite(relayPTCPin, HIGH);
-            Serial.println("PTC activated");
-          } else if (name == "LED" && value == 1) {
-            analogWrite(PIN_RED,   255);
-            analogWrite(PIN_GREEN, 0);
-            analogWrite(PIN_BLUE,  0);
-          }else {
-            digitalWrite(relayFANPin, LOW);
-            digitalWrite(relayPTCPin, LOW);
-            analogWrite(PIN_RED,   0);
-            analogWrite(PIN_GREEN, 0);
-            analogWrite(PIN_BLUE,  0);
+          if (name == "FAN") {
+            if (value == 1) {
+              digitalWrite(relayFANPin, HIGH);
+              Serial.println("Fan activated");
+            } else {
+              digitalWrite(relayFANPin, LOW);
+            }
+          } else if (name == "HEATER") {
+            if (value == 1) {
+              digitalWrite(relayPTCPin, HIGH);
+              Serial.println("PTC activated");
+            } else {
+              digitalWrite(relayPTCPin, LOW);
+            }
+          } else if (name == "LED") {
+            if (value == 1) {
+              rgbLed.setRGB(255, 255, 255);
+            } else {
+              rgbLed.setRGB(0, 0, 0);
+            }
           }
         }
       }

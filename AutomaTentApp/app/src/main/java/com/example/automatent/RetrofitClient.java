@@ -5,7 +5,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.87:8080";
+
+    //you need to change for the local IP in order to connect to the arduino.
+    private static final String BASE_URL = "http://10.72.244.85:8080";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
