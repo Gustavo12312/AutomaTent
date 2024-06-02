@@ -46,5 +46,19 @@ router.put('/update/:id', async function (req, res) {
     }
 });
 
+router.put('/updatestring/:id', async function (req, res) {
+    try {
+        console.log("Update Device");
+        console.log(`Updating device with ID: ${req.params.id}, New value: ${req.body.value}`);
+        let result = await Dev.updateDeviceValueString(req.params.id, req.body.value);
+        if (result.status != 200)
+            return res.status(result.status).send(result.result);
+        res.status(200).send({ message: "Device updated successfully." });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+});
+
 
 module.exports = router;

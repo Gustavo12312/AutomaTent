@@ -13,9 +13,13 @@ create table dev(
     dev_id SERIAL not null,
     dev_name varchar(60) not null,
     dev_value CHAR(1) NOT NULL CHECK (dev_value IN ('0', '1')),
+    dev_value_string VARCHAR(200),
     
     primary key (dev_id)
 );
 
 
 
+//Android
+Color Picker -> #FF00FF
+Android (#FF00FF) -> Endpoint (BD -> "255,0,255")

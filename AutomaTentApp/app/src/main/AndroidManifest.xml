@@ -22,6 +22,9 @@
             android:name=".Fan"
             android:exported="false" />
         <activity
+            android:name=".Dht"
+            android:exported="false" />
+        <activity
             android:name=".Heater"
             android:exported="false" />
         <activity

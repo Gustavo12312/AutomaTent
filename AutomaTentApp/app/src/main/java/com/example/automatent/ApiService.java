@@ -22,5 +22,7 @@ public interface ApiService {
     Call<DevResult> getDev(@Path("id") Integer deviceId);
     @PUT("api/dev/update/{id}")
     Call<Void> updateDev(@Path("id") Integer deviceId, @Body UpdateDevRequest requestData);
+    @PUT("api/dev/updatestring/{id}")
+    Call<Void> updateDevString(@Path("id") Integer deviceId, @Body UpdateDevStringRequest requestData);
 }
 

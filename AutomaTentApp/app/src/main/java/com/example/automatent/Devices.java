@@ -87,7 +87,10 @@ public class Devices extends AppCompatActivity {
                     for (DevicesResult result : results) {
                         String deviceName = result.getName();
                         int deviceId = result.getId();
-                        addButton(deviceName, deviceId);
+                        if (deviceId != 5){
+                            addButton(deviceName, deviceId);
+                        }
+
                     }
                 } else {
                     // Handle error
@@ -120,8 +123,8 @@ public class Devices extends AppCompatActivity {
                     case "fan":
                         destinationClass = Fan.class;
                         break;
-                    case "reagroup button":
-                        destinationClass = Fan.class;
+                    case "dht":
+                        destinationClass = Dht.class;
                         break;
                 }
                 Intent intent = new Intent(Devices.this, destinationClass);

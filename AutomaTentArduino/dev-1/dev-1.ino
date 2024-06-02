@@ -20,6 +20,7 @@ WiFiMulti wifiMulti;
 
 const int relayPTCPin = 32;
 const int relayFANPin = 25;
+int ledActive = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -37,8 +38,8 @@ void setup() {
     Serial.flush();
     delay(1000);
   }
-//change the name of the wifi and pass 
-  wifiMulti.addAP("Visitors", "");
+  //change the name of the wifi and pass
+  wifiMulti.addAP("MEO-DA8080", "f0b4e0df22");
 
   pinMode(relayPTCPin, OUTPUT);
   pinMode(relayFANPin, OUTPUT);
@@ -65,12 +66,31 @@ void loop() {
   Serial.println("---------------------------------------------");
   Serial.println(" ");
 
+
   if ((wifiMulti.run() == WL_CONNECTED)) {
+    StaticJsonDocument<200> jsonDoc;
+    jsonDoc["value"] = String(temperatura) + ":" + String(humidade);
+    String requestBody;
+    serializeJson(jsonDoc, requestBody);
+
+    HTTPClient httpTemp;
+    httpTemp.begin("http://192.168.1.87:8080/api/dev/updatestring/6");
+    httpTemp.addHeader("Content-Type", "application/json");
+
+    int httpResponseCode = httpTemp.PUT(requestBody);
+
+    if (httpResponseCode > 0) {
+      String response = httpTemp.getString();
+    } else {
+      Serial.println("Error on sending PUT request: " + String(httpResponseCode));
+    }
+
+    httpTemp.end();
     HTTPClient http;
 
-//change for the local IP to connect with androidstudio 
+    //change for the local IP to connect with androidstudio
     Serial.print("[HTTP] begin...\n");
-    http.begin("http://10.72.244.85:8080/api/dev");
+    http.begin("http://192.168.1.87:8080/api/dev");
 
     Serial.print("[HTTP] GET...\n");
     int httpCode = http.GET();
@@ -105,10 +125,17 @@ void loop() {
             }
           } else if (name == "LED") {
             if (value == 1) {
-              rgbLed.setRGB(255, 255, 255);
+              ledActive = 1;
             } else {
               rgbLed.setRGB(0, 0, 0);
+              ledActive = 0;
             }
+          } else if (name == "RGB_LED" && ledActive == 1) {
+            String rgb = device["value_string"].as<String>();
+            String rValue = getValue(rgb, ':', 0);
+            String gValue = getValue(rgb, ':', 1);
+            String bValue = getValue(rgb, ':', 2);
+            rgbLed.setRGB(rValue.toInt(), gValue.toInt(), bValue.toInt());
           }
         }
       }
@@ -117,5 +144,23 @@ void loop() {
     }
     http.end();
   }
+
+
   delay(1000);
+}
+
+String getValue(String data, char separator, int index) {
+  int found = 0;
+  int strIndex[] = { 0, -1 };
+  int maxIndex = data.length() - 1;
+
+  for (int i = 0; i <= maxIndex && found <= index; i++) {
+    if (data.charAt(i) == separator || i == maxIndex) {
+      found++;
+      strIndex[0] = strIndex[1] + 1;
+      strIndex[1] = (i == maxIndex) ? i + 1 : i;
+    }
+  }
+
+  return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }

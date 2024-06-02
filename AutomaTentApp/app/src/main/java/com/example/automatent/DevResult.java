@@ -1,15 +1,34 @@
 package com.example.automatent;
 
-public class DevResult {
-    private String name;
-    private Integer value;
+import com.google.gson.annotations.SerializedName;
 
+public class DevResult {
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("value")
+    private String value;
+
+    @SerializedName("value_string")
+    private String valueString;
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
     }
-    public Integer getValue() {
+
+    public String getValue() {
         return value;
+    }
+
+    public String getValueString() {
+        return valueString;
     }
 }
 

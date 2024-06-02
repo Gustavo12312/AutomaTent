@@ -5,20 +5,23 @@ function dbDevToDev(dbDev)  {
     dev.id = dbDev.dev_id;
     dev.name = dbDev.dev_name;
     dev.value = dbDev.dev_value;
+    dev.value_string = dbDev.dev_value_string;
     return dev;
 }
 
 class Dev {
-    constructor(id, name, value) {
+    constructor(id, name, value, value_string) {
         this.id = id;
         this.name = name;
         this.value = value;
+        this.value_string = value_string;
     
     }
     export() {
         let dev =new Dev();
         dev.name = this.name;
         dev.value = this.value;
+        dev.value_string = this.value_string;
         return dev; 
     }
 
@@ -30,7 +33,7 @@ class Dev {
                 return { status: 404, result:{msg: "No device found for that id."} } ;
             let dbDev = dbDevs[0];
             return { status: 200, result: 
-                new Dev(dbDev.dev_id, dbDev.dev_name, dbDev.dev_value)} ;
+                new Dev(dbDev.dev_id, dbDev.dev_name, dbDev.dev_value, dbDev.dev_value_string)} ;
         } catch (err) {
             console.log(err);
             return { status: 500, result: err };
@@ -43,7 +46,7 @@ class Dev {
             let dbDevs = dbResult.rows;
             if (!dbDevs.length) 
                 return { status: 404, result: { msg: "No devices found." } };
-            let dev = dbDevs.map(dbDev => new Dev(dbDev.dev_id, dbDev.dev_name, dbDev.dev_value));
+            let dev = dbDevs.map(dbDev => new Dev(dbDev.dev_id, dbDev.dev_name, dbDev.dev_value, dbDev.dev_value_string));
             return { status: 200, result: dev };
         } catch (err) {
             console.log(err);
@@ -61,6 +64,18 @@ class Dev {
             
             // Update the device value in the database
             await pool.query("UPDATE dev SET dev_value = $1 WHERE dev_id = $2", [newValue, id]);
+    
+            return { status: 200, result: { msg: "Device value updated successfully." } };
+        } catch (err) {
+            console.log(err);
+            return { status: 500, result: err };
+        }
+    }
+
+    static async updateDeviceValueString(id, newValue) {
+        try {
+            // Update the device value string in the database
+            await pool.query("UPDATE dev SET dev_value_string = $1 WHERE dev_id = $2", [newValue, id]);
     
             return { status: 200, result: { msg: "Device value updated successfully." } };
         } catch (err) {

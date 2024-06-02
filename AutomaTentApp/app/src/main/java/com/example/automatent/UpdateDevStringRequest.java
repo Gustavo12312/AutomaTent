@@ -1,16 +1,16 @@
 package com.example.automatent;
 
-public class UpdateDevRequest {
-    private Integer value;
-    public UpdateDevRequest(Integer value) {
+public class UpdateDevStringRequest {
+    private String value;
+    public UpdateDevStringRequest(String value) {
         this.value = value;
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(String value) {
         this.value = value;
     }
 
@@ -21,5 +21,4 @@ public class UpdateDevRequest {
                 "value=" + value +
                 '}';
     }
-
 }

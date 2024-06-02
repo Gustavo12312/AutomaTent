@@ -2,9 +2,11 @@ package com.example.automatent;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -21,10 +23,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Led extends AppCompatActivity {
     private ApiService apiService;
     SharedPreferences sharedPreferences;
+    private Button mSetColorButton, mPickColorButton;
+    private View mColorPreview;
+    private int mDefaultColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,28 @@ public class Led extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        mPickColorButton = findViewById(R.id.pick_color_button);
+        mSetColorButton = findViewById(R.id.set_color_button);
+        mColorPreview = findViewById(R.id.preview_selected_color);
+        mDefaultColor = 0;
+
+        mPickColorButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openColorPickerDialog();
+                    }
+                });
+
+        mSetColorButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String colorToUpdate = Color.red(mDefaultColor) + ":" + Color.green(mDefaultColor) + ":" + Color.blue(mDefaultColor);
+                        updateDeviceValueString(colorToUpdate);
+                    }
+                });
 
 
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -96,6 +124,59 @@ public class Led extends AppCompatActivity {
 
             // Call Retrofit service method to update device value
             Call<Void> call = apiService.updateDev(deviceId, requestData);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        // Handle successful response
+                        Log.d("DevActivity", "Device value updated successfully.");
+                    } else {
+                        // Handle unsuccessful response
+                        Log.d("DevActivity", "Failed to update device value. Status code: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    // Handle failure
+                    Log.e("DevActivity", "Failed to update device value: " + t.getMessage(), t);
+                }
+            });
+        } else {
+            // Handle invalid device ID
+            Toast.makeText(this, "Invalid device ID", Toast.LENGTH_SHORT).show();
+            Log.d("DevActivity", "Invalid device ID");
+        }
+    }
+
+    private void openColorPickerDialog() {
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, mDefaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                mDefaultColor = color;
+                mColorPreview.setBackgroundColor(mDefaultColor);
+            }
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+                // Action on cancel
+            }
+        });
+        colorPicker.show();
+    }
+    private void updateDeviceValueString(String newValue) {
+        // Retrieve device ID from intent extras
+        int deviceId = 5;
+        Log.d("DevActivity", "Updating device value for ID: " + deviceId);
+        if (deviceId != -1) {
+            // Call Retrofit service method to update device value
+            UpdateDevStringRequest requestData = new UpdateDevStringRequest(newValue);
+
+            // Log the request body
+            Log.d("DevActivity", "Request Body: " + requestData);
+
+            // Call Retrofit service method to update device value
+            Call<Void> call = apiService.updateDevString(deviceId, requestData);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
