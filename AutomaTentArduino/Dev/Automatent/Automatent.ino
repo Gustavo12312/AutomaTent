@@ -1,9 +1,9 @@
-#include "DHT.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include "DHT.h"
 #include "RGBLed.h"
 
 #define PIN_RED 33    // GPIO23
@@ -13,20 +13,20 @@
 #define rgbLed_TYPE COMMON_ANODE
 RGBLed rgbLed(PIN_RED, PIN_GREEN, PIN_BLUE, rgbLed_TYPE);
 
+int ledActive = 0;
+
 #define DHTTYPE DHT22
 DHT dht(14, DHTTYPE);
 
-WiFiMulti wifiMulti;
-
 const int relayPTCPin = 32;
+
 const int relayFANPin = 25;
-int ledActive = 0;
+
+WiFiMulti wifiMulti;
 
 void setup() {
   Serial.begin(115200);
   Serial.println();
-  Serial.println();
-  Serial.println("Teste");
   pinMode(PIN_RED, OUTPUT);
   pinMode(PIN_GREEN, OUTPUT);
   pinMode(PIN_BLUE, OUTPUT);
@@ -38,8 +38,8 @@ void setup() {
     Serial.flush();
     delay(1000);
   }
-  //change the name of the wifi and pass
-  wifiMulti.addAP("MEO-DA8080", "f0b4e0df22");
+  //Change the name of the Wifi and the pass
+  wifiMulti.addAP("Visitors", "");
 
   pinMode(relayPTCPin, OUTPUT);
   pinMode(relayFANPin, OUTPUT);
