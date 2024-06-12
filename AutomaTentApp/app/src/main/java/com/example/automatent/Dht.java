@@ -57,6 +57,14 @@ public class Dht extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.infoButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Dht.this, DhtInfo.class);
+                startActivity(intent);
+            }
+        });
     }
     public void updateData(){
         Call<DevResult> call = apiService.getDev(6);

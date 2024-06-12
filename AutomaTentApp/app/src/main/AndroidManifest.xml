@@ -16,6 +16,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".DhtInfo"
+            android:exported="false" />
+        <activity
+            android:name=".LedInfo"
+            android:exported="false" />
+        <activity
+            android:name=".HeaterInfo"
+            android:exported="false" />
+        <activity
+            android:name=".FanInfo"
+            android:exported="false" />
+        <activity
             android:name=".ReagroupButton"
             android:exported="false" />
         <activity

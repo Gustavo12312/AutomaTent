@@ -38,9 +38,7 @@ void setup() {
     Serial.flush();
     delay(1000);
   }
-  //Change the name of the Wifi and the pass
-  wifiMulti.addAP("Visitors", "");
-
+  wifiMulti.addAP("iPhone de Gustavo (3)", "");
   pinMode(relayPTCPin, OUTPUT);
   pinMode(relayFANPin, OUTPUT);
 }
@@ -74,7 +72,7 @@ void loop() {
     serializeJson(jsonDoc, requestBody);
 
     HTTPClient httpTemp;
-    httpTemp.begin("http://192.168.1.87:8080/api/dev/updatestring/6");
+    httpTemp.begin("http://172.20.10.2:8080/api/dev/updatestring/6");
     httpTemp.addHeader("Content-Type", "application/json");
 
     int httpResponseCode = httpTemp.PUT(requestBody);
@@ -90,7 +88,7 @@ void loop() {
 
     //change for the local IP to connect with androidstudio
     Serial.print("[HTTP] begin...\n");
-    http.begin("http://192.168.1.87:8080/api/dev");
+    http.begin("http://172.20.10.2:8080/api/dev");
 
     Serial.print("[HTTP] GET...\n");
     int httpCode = http.GET();

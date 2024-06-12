@@ -80,6 +80,14 @@ public class Heater extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.infoButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Heater.this, HeaterInfo.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

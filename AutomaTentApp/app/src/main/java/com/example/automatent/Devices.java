@@ -123,7 +123,7 @@ public class Devices extends AppCompatActivity {
                     case "fan":
                         destinationClass = Fan.class;
                         break;
-                    case "dht":
+                    case "temperature and humidity":
                         destinationClass = Dht.class;
                         break;
                 }

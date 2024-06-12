@@ -80,6 +80,14 @@ public class Fan extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.infoButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Fan.this, FanInfo.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

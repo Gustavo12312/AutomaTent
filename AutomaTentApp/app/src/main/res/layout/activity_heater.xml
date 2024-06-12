@@ -68,6 +68,18 @@
                 android:layout_gravity="center_horizontal"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/infoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Info"
+                android:layout_marginTop="150dp"
+                android:background="@drawable/buttonformat"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal" />
+
         </LinearLayout>
 
 

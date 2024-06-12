@@ -108,6 +108,14 @@ public class Led extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.infoButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Led.this, LedInfo.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
